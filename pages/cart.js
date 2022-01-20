@@ -4,8 +4,14 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import pizzaImg from '../public/img/pizza.png';
 import Footer from './components/Footer';
+import { useDispatch as _useDispatch , useSelector as _useSelector} from 'react-redux';
 
 function cart() {
+    const dispatch = _useDispatch();
+    const cart = _useSelector(state => state.cart)
+    const quantity = _useSelector(state => state.cart.quantity)
+
+    console.log(cart,"kfhdsduigfskdhf")
     const pizza = {
         id: 1,
         img: pizzaImg,
@@ -27,26 +33,31 @@ function cart() {
                             <th>Quantity</th>
                             <th>Total</th>
                         </tr>
-                        <tr className="trbody">
+                        {
+                            cart.products.map((data)=>(
+                            <tr className="trbody" key={data._id}>
                             <td>
-                                <Image src={pizzaImg} alt="" width="100" height="100" />
+                                <Image src={data.image} alt="" width="100" height="100" />
                             </td>
                             <td>
-                                <span className="name">CORALZO</span>
+                                <span className="name">{data.title}</span>
                             </td>
                             <td>
-                                <span>Double ingredient, spicy sauce</span>
+                                <span>{data.description}</span>
                             </td>
                             <td>
-                                <span>$19.90</span>
+                                <span>${data.prices[0]}</span>
                             </td>
                             <td>
-                                <span>2</span>
+                                <span>{quantity}</span>
                             </td>
                             <td>
                                 <span className="total">$39.80</span>
                             </td>
                         </tr>
+
+                            ))
+                        }
                     </Table>
                 </CartLeft>
 

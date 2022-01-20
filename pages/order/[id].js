@@ -68,7 +68,7 @@ function Order() {
                     </div>
                     <div className={statusClass(3)}>
                         <Image src={delivery} alt="" width="32" height="32"/> 
-                        <span>delivered</span>
+                        <span>Delivered</span>
                         <div>
                         <Image src={check} alt="" width="20" height="20"/> 
                         </div>
@@ -77,7 +77,7 @@ function Order() {
             </Left>
             <Right>
                 <div className="order__info">
-                    <h2>cart total</h2>
+                    <h2>Cart Total</h2>
                     <h4>
                         <b>Subtotal:</b> $79.60
                     </h4>
@@ -102,7 +102,9 @@ export default Order;
 const OrderContainer = styled.div`
 padding:50px;
 display:flex;
-
+    @media screen and (max-width: 768px){
+        flex-direction: column;
+    }
 `;
 
 const Left = styled.div`
@@ -174,9 +176,15 @@ const Table = styled.table`
         .trbody{
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+            text-align: center;
+            // align-items: center;
+            // justify-content: center;
+            margin-bottom: 10px;
+
+            td{
+                padding-bottom:10px;
+                font-size:18px;
+            }
         }
     }
 `;
@@ -186,10 +194,17 @@ const OrderProcess= styled.div`
     align-items: center;
     padding-top:30px;
     padding-left:40px;
+
     div{
         padding:0 45px;
     }
-
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        padding:5px 0;
+        div{
+            padding:3px 0;
+        }
+    }
 .done {
     display: flex;
     flex-direction: column;

@@ -5,28 +5,33 @@ import pizzaImg from '../../public/img/pizza.png';
 import pizzasize from '../../public/img/size.png';
 import styled from 'styled-components'
 import Image from 'next/image';
-function Product() {
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../redux/cartSlice';
+function Product({ pizza }) {
     const [pizzaSize, setPizzaSize] = useState(0)
+    const dispatch = useDispatch();
 
-    const pizza = {
-        id: 1,
-        img: pizzaImg,
-        name: "CAMPAGNOLA",
-        price: [19.9, 23.9, 27.9],
-        desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu purus, rhoncus fringilla vestibulum vel, dignissim vel ante. Nulla facilisi. Nullam a urna sit amet tellus pellentesque egestas in in ante.",
-    };
+    const handleClick = (e, types) => {
+        const checked=e.target.checked;
+
+    }
+
+    const addToCart=()=>{
+        dispatch(addProduct({...pizza}))
+    }
     return (
         <div className="product__container">
             <Navbar />
             <ProductInfo>
                 <ProductLeft>
-                    <Image src={pizza.img} alt="" />
+                    <Image src={pizza.image} alt="" width="100%" height="50%" layout="responsive" objectFit="contain" />
                 </ProductLeft>
 
                 <ProductRight>
-                    <h1>{pizza.name}</h1>
-                    <span className="product__price">{pizza.price[pizzaSize]}</span>
-                    <p style={{ paddingTop: 10 }}>{pizza.desc}</p>
+                    <h1>{pizza.title}</h1>
+                    <span className="product__price">${pizza.prices[pizzaSize]}</span>
+                    <p style={{ paddingTop: 10 }}>{pizza.description}</p>
                     <h1 className="product__size">choose the size</h1>
 
                     <PizzaSize>
@@ -49,25 +54,21 @@ function Product() {
                     <h1 className="product__size">choose additional ingredients</h1>
 
                     <CheckBoxes>
-                        <div>
-                            <input className="checkbox" type="checkbox" />
-                            <span>Double Ingredient</span>
-                        </div>
-
-                        <div>
-                            <input className="checkbox" type="checkbox" />
-                            <span>Extra Cheese</span>
-                        </div>
-
-                        <div>
-                            <input className="checkbox" type="checkbox" />
-                            <span>Spicy Sauce</span>
-                        </div>
+                        {
+                            pizza.extraOption.map((types) => (
+                                <div key={types._id}>
+                                    <input
+                                        className="checkbox"
+                                        type="checkbox" id={types.text} name={types.text} onClick={(e) => handleClick(e, types)} />
+                                    <span>{types.text}</span>
+                                </div>
+                            ))
+                        }
                     </CheckBoxes>
 
                     <Quantity>
                         <input type="number" defaultValue={1} />
-                        <button>Add to cart</button>
+                        <button onClick={addToCart}>Add to cart</button>
                     </Quantity>
                 </ProductRight>
             </ProductInfo>
@@ -75,6 +76,17 @@ function Product() {
         </div>
     )
 }
+
+export const getServerSideProps = async ({ params }) => {
+    const res = await axios.get(
+        `http://localhost:3000/api/product/${params.id}`
+    );
+    return {
+        props: {
+            pizza: res.data,
+        },
+    };
+};
 
 export default Product
 

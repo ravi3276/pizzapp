@@ -3,7 +3,12 @@ import React from 'react'
 import styled from 'styled-components';
 import telephone from '../../public/img/telephone.png';
 import cart from '../../public/img/cart.png';
+import { useSelector } from 'react-redux';
+import Link from 'next/link';
+
 function Navbar() {
+    const quantity = useSelector(state => state.cart.quantity);
+    console.log(quantity);
     return (
         <Nav>
             <NavLeft>
@@ -26,10 +31,12 @@ function Navbar() {
                     <li>Contact</li>
                 </Ul>
             </NavMiddle>
+            <Link href="/cart" passHref>
             <NavRight>
                 <Image className="nav__cart" src={cart} alt="" width="32" height="32" />
-                <div>2</div>
+                <div>{quantity}</div>
             </NavRight>
+            </Link>
         </Nav>
     )
 }

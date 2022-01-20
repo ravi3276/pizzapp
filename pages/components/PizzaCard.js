@@ -1,15 +1,18 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react'
 import styled from 'styled-components';
-import pizza from '../../public/img/PIZ0167.jpg';
-function PizzaCard() {
+
+function PizzaCard({pizza}) {
   return (
     <Pizzacard>
-        <Image className="pizza__img" src={pizza} alt="" height="250" width="250" />
-      <h1 >FIORI DI ZUCCA</h1>
-      <span>$19.90</span>
+        <Link href={`/product/${pizza._id}`} passHref>
+        <Image className="pizza__img" src={pizza.image} alt="" height="250" width="250" />
+        </Link>
+      <h1 >{pizza.title}</h1>
+      <span>${pizza.prices[0]}</span>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        {pizza.description}
       </p>
     </Pizzacard>
   )

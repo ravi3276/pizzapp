@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import PizzaCard from './PizzaCard';
-function PizzaList() {
-  return (
+function PizzaList({pizzaList}) {
+
+    return (
     <Pizzalist>
         <h1>the best pizza in town</h1>
         <p>
@@ -11,14 +12,11 @@ function PizzaList() {
         sit amet, consectetur adipiscing elit.
         </p>
         <div className="pizza__card">
-            <PizzaCard />
-            <PizzaCard />
-            <PizzaCard />
-            <PizzaCard />
-            <PizzaCard />
-            <PizzaCard />
-            <PizzaCard />
-            <PizzaCard />
+            {
+                pizzaList.map((pizza)=>(
+                    <PizzaCard key={pizza._id} pizza={pizza}/>
+                ))
+            }
         </div>
     </Pizzalist>
   )
